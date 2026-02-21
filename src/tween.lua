@@ -74,8 +74,18 @@ function Tween:play()
 		self._startProps = Utils.captureProperties(self._obj, self._targetProps)
 	end
 
+	for key in pairs(self._targetProps) do
+		if self._startProps[key] == nil then
+			warn("Smoothly: property '" .. tostring(key) .. "' was not found on " .. tostring(self._obj) .. " — it will be skipped.")
+		end
+	end
+
 	if self._elapsed == 0 then
 		if self._onStartCb then self._onStartCb() end
+	end
+
+	for key, val in pairs(self._startProps) do
+		self._obj[key] = val
 	end
 
 	self._state = STATES.PLAYING
@@ -110,10 +120,12 @@ function Tween:_handleCycleEnd()
 	if self._pingPong then
 		self._direction = -self._direction
 		self._elapsed   = math.clamp(self._elapsed, 0, self._duration)
-		self._repeatsDone += 1
+		self._halfsDone = (self._halfsDone or 0) + 1
 
-		local infinite = self._loop or self._repeatCount == 0
-		if not infinite and self._repeatsDone >= self._repeatCount * 2 then
+		local infinite   = self._loop or self._repeatCount == 0
+		local fullCycles = math.floor(self._halfsDone / 2)
+
+		if not infinite and fullCycles >= self._repeatCount then
 			self:_finish()
 		end
 		return
@@ -176,6 +188,7 @@ function Tween:reset()
 	self:cancel()
 	self._elapsed     = 0
 	self._repeatsDone = 0
+	self._halfsDone   = 0
 	self._direction   = 1
 	self._state       = STATES.IDLE
 	Manager.register(self.id, self)
