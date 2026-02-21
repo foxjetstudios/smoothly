@@ -26,19 +26,10 @@ function Chain:to(duration, properties, easing, options)
 end
 
 function Chain:from(duration, properties, easing, options)
-	options = options or {}
-
-	local currentProps = {}
-	for key in pairs(properties) do
-		currentProps[key] = self._obj[key]
-	end
-
-	options.fromProps = properties
-
 	table.insert(self._steps, {
-		type       = "tween",
+		type       = "from",
 		duration   = duration,
-		properties = currentProps,
+		fromProps  = properties,
 		easing     = easing,
 		options    = options,
 	})
@@ -87,6 +78,20 @@ function Chain:_runStep(index)
 
 	if step.type == "tween" then
 		local t = Tween.new(self._obj, step.duration, step.properties, step.easing, step.options)
+		t:onComplete(function()
+			self:_runStep(index + 1)
+		end)
+		t:play()
+
+	elseif step.type == "from" then
+		local options = step.options or {}
+		local currentProps = {}
+		for key in pairs(step.fromProps) do
+			currentProps[key] = self._obj[key]
+		end
+		options.fromProps = step.fromProps
+
+		local t = Tween.new(self._obj, step.duration, currentProps, step.easing, options)
 		t:onComplete(function()
 			self:_runStep(index + 1)
 		end)
