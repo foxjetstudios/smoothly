@@ -3,3 +3,4 @@
 - Initial release of Smoothly
 ## [1.0.2] - 2026-02-22
 - Improved performance with some changes on tween.lua and manager.lua
+- Changes to files extensions (lua > luau)
