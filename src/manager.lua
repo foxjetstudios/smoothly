@@ -1,9 +1,41 @@
-local Manager = {}
+local RunService = game:GetService("RunService")
 
-local registry = {}
+local Manager = {}
+local registry  = {}
+local active    = {}
+local stepping  = false
+
+local function startLoop()
+	if stepping then return end
+	stepping = true
+
+	RunService.Heartbeat:Connect(function(dt)
+		local finished = {}
+
+		for id, tween in pairs(active) do
+			local done = tween:_step(dt)
+			if done then
+				table.insert(finished, id)
+			end
+		end
+		for _, id in ipairs(finished) do
+			active[id] = nil
+		end
+	end)
+end
+
+startLoop()
 
 function Manager.register(id, tween)
 	registry[id] = tween
+end
+
+function Manager.activate(id, tween)
+	active[id] = tween
+end
+
+function Manager.deactivate(id)
+	active[id] = nil
 end
 
 function Manager.get(id)
@@ -12,6 +44,7 @@ end
 
 function Manager.remove(id)
 	registry[id] = nil
+	active[id]   = nil
 end
 
 function Manager.cancelAll(tag)
