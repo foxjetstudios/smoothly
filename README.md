@@ -299,6 +299,9 @@ Smoothly/
 ├── easing.lua      built-in & custom easings
 ├── manager.lua     tween registry & group control
 └── utils.lua       lerp, id gen, helpers
+
+**Make sure to parent all the modules inside init module for everything to work properly.**
+
 ```
 
 ---
