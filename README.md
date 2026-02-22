@@ -10,7 +10,7 @@ No boilerplate. No headaches. Just smooth animations.
 1. Parent the modules from /src inside of Init in ReplicatedStorage.
 2. Require it wherever you need it:
 
-```lua
+```luau
 local Smoothly = require(game.ReplicatedStorage.Init)
 ```
 
@@ -20,7 +20,7 @@ You can rename Init to Smoothly for better finding.
 
 ## Quick Start
 
-```lua
+```luau
 -- Move a part up over 2 seconds with a bounce
 Smoothly.to(part, 2, { Position = Vector3.new(0, 50, 0) }, "easeOutBounce")
 
@@ -41,7 +41,7 @@ end)
 
 Tweens an object from its current values to the given properties.
 
-```lua
+```luau
 Smoothly.to(part, 1.5, {
     Position     = Vector3.new(0, 20, 0),
     Transparency = 0.5,
@@ -57,7 +57,7 @@ Returns a `Tween` object.
 Tweens an object **from** the given values to its current state.  
 Great for intro animations, set where things start, not where they end.
 
-```lua
+```luau
 Smoothly.from(frame, 0.3, { Size = UDim2.new(0, 0, 0, 0) }, "easeOutBack")
 ```
 
@@ -67,7 +67,7 @@ Smoothly.from(frame, 0.3, { Size = UDim2.new(0, 0, 0, 0) }, "easeOutBack")
 
 Returns a `Chain` builder for sequencing tweens one after another.
 
-```lua
+```luau
 Smoothly.chain(part)
     :to(1, { Position = Vector3.new(0, 10, 0) }, "linear")
     :wait(0.5)
@@ -96,7 +96,7 @@ Smoothly.chain(part)
 
 Runs multiple tweens at the same time. Fires `onComplete` when all finish.
 
-```lua
+```luau
 Smoothly.parallel({
     { part1, 1, { Size = Vector3.new(5, 5, 5) }, "easeOutQuad" },
     { part2, 1, { Transparency = 0 }, "linear" },
@@ -108,7 +108,7 @@ end)
 
 Each entry can also be a named table:
 
-```lua
+```luau
 { obj = part, duration = 1, props = { Transparency = 0 }, easing = "linear" }
 ```
 
@@ -118,7 +118,7 @@ Each entry can also be a named table:
 
 Shorthand for defining a chain of tweens on one object in a single table.
 
-```lua
+```luau
 Smoothly.sequence(part, {
     { duration = 0.5, props = { Position = Vector3.new(0, 10, 0) }, easing = "linear" },
     { duration = 1,   props = { Position = Vector3.new(0, 50, 0) }, easing = "easeInOutQuad" },
@@ -141,7 +141,7 @@ Each step supports:
 
 Fires a callback after a set time. Lightweight animation scheduler.
 
-```lua
+```luau
 Smoothly.delay(2, function()
     part.BrickColor = BrickColor.new("Bright red")
 end)
@@ -153,7 +153,7 @@ end)
 
 Register a custom easing function globally so you can reference it by name anywhere.
 
-```lua
+```luau
 Smoothly.ease("myBounce", function(t)
     return math.sin(t * math.pi)
 end)
@@ -169,7 +169,7 @@ Custom easing functions receive `t` (0–1) and must return a number (usually 0�
 
 Reverses the direction of a playing tween.
 
-```lua
+```luau
 local t = Smoothly.to(part, 3, { Position = Vector3.new(0, 50, 0) }, "linear")
 task.wait(1)
 Smoothly.reverse(t.id)
@@ -179,7 +179,7 @@ Smoothly.reverse(t.id)
 
 ### Global Controls
 
-```lua
+```luau
 Smoothly.pause(tweenId)          -- pause a specific tween
 Smoothly.resume(tweenId)         -- resume a specific tween
 Smoothly.cancel(tweenId)         -- cancel a specific tween
@@ -199,7 +199,7 @@ Smoothly.count("ui")             -- active tweens with a given tag
 
 Tags are set through the `options` table:
 
-```lua
+```luau
 Smoothly.to(frame, 0.3, { Transparency = 0 }, "easeOutQuad", { tag = "ui" })
 ```
 
@@ -209,7 +209,7 @@ Smoothly.to(frame, 0.3, { Transparency = 0 }, "easeOutQuad", { tag = "ui" })
 
 Every `Smoothly.to` and `Smoothly.from` call returns a Tween object you can interact with directly.
 
-```lua
+```luau
 local t = Smoothly.to(part, 2, { Transparency = 1 }, "linear")
 
 t:pause()
@@ -240,7 +240,7 @@ All tween functions accept an optional `options` table as the last argument:
 | `pingPong` | boolean | Reverse back and forth |
 | `repeatCount` | number | Repeat N times (0 = no repeats) |
 
-```lua
+```luau
 Smoothly.to(part, 1, { Transparency = 0.5 }, "easeInOutSine", {
     loop      = false,
     pingPong  = true,
@@ -268,7 +268,7 @@ Smoothly.to(part, 1, { Transparency = 0.5 }, "easeInOutSine", {
 
 You can also pass a **function directly** instead of a name string:
 
-```lua
+```luau
 Smoothly.to(part, 1, { Transparency = 0 }, function(t)
     return t * t * t
 end)
@@ -293,14 +293,14 @@ Smoothly can animate any property of these types:
 
 ```
 src/
-├── init.lua        main API entry point
-├── tween.lua       core tween object
-├── chain.lua       sequential chaining
-├── parallel.lua    simultaneous tweens
-├── sequence.lua    step-list shorthand
-├── easing.lua      built-in & custom easings
-├── manager.lua     tween registry & group control
-└── utils.lua       lerp, id gen, helpers
+├── init.luau        main API entry point
+├── tween.luau       core tween object
+├── chain.luau       sequential chaining
+├── parallel.luau    simultaneous tweens
+├── sequence.luau    step-list shorthand
+├── easing.luau      built-in & custom easings
+├── manager.luau     tween registry & group control
+└── utils.luau       lerp, id gen, helpers
 
 ```
 
