@@ -7,12 +7,14 @@ No boilerplate. No headaches. Just smooth animations.
 
 ## Installation
 
-1. Put the codes in /src in ReplicatedStorage.
+1. Parent the modules from /src inside of Init in ReplicatedStorage.
 2. Require it wherever you need it:
 
 ```lua
-local Smoothly = require(game.ReplicatedStorage.Smoothly)
+local Smoothly = require(game.ReplicatedStorage.Init)
 ```
+
+You can rename Init to Smoothly for better finding.
 
 ---
 
@@ -290,7 +292,7 @@ Smoothly can animate any property of these types:
 ## Repository Structure
 
 ```
-Smoothly/
+src/
 ├── init.lua        main API entry point
 ├── tween.lua       core tween object
 ├── chain.lua       sequential chaining
