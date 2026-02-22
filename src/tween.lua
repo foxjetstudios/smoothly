@@ -186,7 +186,7 @@ function Tween:reset()
 	self._halfsDone   = 0
 	self._direction   = 1
 	self._state      = STATES.IDLE
-	Manager.register(self.id, self
+	Manager.register(self.id, self)
 	return self
 end
 
