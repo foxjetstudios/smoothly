@@ -1,3 +1,5 @@
+-- main script, parent all the scripts in the same instance. you can create a model and put all the modules inside it!
+
 local Tween    = require(script.tween)
 local Chain    = require(script.chain)
 local Parallel = require(script.parallel)
